@@ -80,10 +80,10 @@ M.setup = function()
 end
 
 M.treesitter_incremental_selection_keymaps = {
-    init_selection = "<C-Space>",
-    node_incremental = "<C-Space>",
-    scope_incremental = "<C-1>",
-    node_decremental = "<BS>"
+    init_selection = "<S-Space>",
+    node_incremental = "<S-Space>",
+    scope_incremental = "<S-M-Space>",
+    node_decremental = "<S-BS>"
 }
 
 return M
