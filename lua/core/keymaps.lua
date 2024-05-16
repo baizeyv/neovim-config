@@ -1,5 +1,7 @@
 local helpers = require("helpers")
-local map = helpers.key.set_map
+
+local M = {}
+M.map = helpers.key.set_map
 
 -- Mode  | Norm | Ins | Cmd | Vis | Sel | Opr | Term | Lang |
 -- Command        +------+-----+-----+-----+-----+-----+------+------+
@@ -17,21 +19,20 @@ local map = helpers.key.set_map
 
 -- opts -> "<buffer>", "<nowait>", "<silent>", "<script>", "<expr>" and "<unique>"
 
-local M = {}
-
 _G.custom_keymaps = M
 
 -- set space as leader key
 helpers.key.set_leader(" ")
 
 M.setup = function()
+    local map = M.map
     -- set my custom keymappings
-    map({ "n", "x" }, "e", "v:count == 0 ? 'gj' : 'j'", { expr = true, desc = "[Move] Down" })
-    map({ "n", "x" }, "u", "v:count == 0 ? 'gk' : 'k'", { expr = true, desc = "[Move] Up" })
+    map({ "n", "x" }, M.accelerated.down, "v:count == 0 ? 'gj' : 'j'", { expr = true, desc = "[Move] Down" })
+    map({ "n", "x" }, M.accelerated.up, "v:count == 0 ? 'gk' : 'k'", { expr = true, desc = "[Move] Up" })
     map({ "n", "x" }, "n", "h", { desc = "[Move] Left" })
     map({ "n", "x" }, "i", "l", { desc = "[Move] Right" })
-    map({ "n", "x" }, "U", "5k", { desc = "[Move] Up Quickly" })
-    map({ "n", "x" }, "E", "5j", { desc = "[Move] Down Quickly" })
+    map({ "n", "x" }, M.accelerated.quick_up, "5k", { desc = "[Move] Up Quickly" })
+    map({ "n", "x" }, M.accelerated.quick_down, "5j", { desc = "[Move] Down Quickly" })
     map({ "n", "x" }, "N", "0", { desc = "[Move] To Head Of Line" })
     map({ "n", "x" }, "I", "$", { desc = "[Move] To Tail Of Line" })
     map({ "n", "x" }, "W", "5w", { desc = "[Move] To Next Word" })
@@ -63,20 +64,30 @@ M.setup = function()
     map("i", ".", ".<C-g>u")
     map("i", ";", ";<C-g>u")
 
-    map("n", "su", ":set nosplitbelow<CR>:split<CR>:set splitbelow<CR>", { desc = "[Split] Up" })
-    map("n", "se", ":set splitbelow<CR>:split<CR>", { desc = "[Split] Down" })
-    map("n", "sn", ":set nosplitright<CR>:vsplit<CR>:set splitright<CR>", { desc = "[Split] Left" })
-    map("n", "si", ":set splitright<CR>:vsplit<CR>", { desc = "[Split] Right" })
-    map("n", "<LEADER>u", "<C-w>k", { desc = "Switch To Up Window" })
-    map("n", "<LEADER>e", "<C-w>j", { desc = "Switch To Below Window" })
-    map("n", "<LEADER>n", "<C-w>h", { desc = "Switch To Left Window" })
-    map("n", "<LEADER>i", "<C-w>l", { desc = "Switch To Right Window" })
-    map("n", "<LEADER>w", "<C-w>w", { desc = "Switch To Next Window" })
+    map("n", ";su", ":set nosplitbelow<CR>:split<CR>:set splitbelow<CR>", { desc = "[Split] Up" })
+    map("n", ";se", ":set splitbelow<CR>:split<CR>", { desc = "[Split] Down" })
+    map("n", ";sn", ":set nosplitright<CR>:vsplit<CR>:set splitright<CR>", { desc = "[Split] Left" })
+    map("n", ";si", ":set splitright<CR>:vsplit<CR>", { desc = "[Split] Right" })
+    map("n", ";<LEADER>u", "<C-w>k", { desc = "Switch To Up Window" })
+    map("n", ";<LEADER>e", "<C-w>j", { desc = "Switch To Below Window" })
+    map("n", ";<LEADER>n", "<C-w>h", { desc = "Switch To Left Window" })
+    map("n", ";<LEADER>i", "<C-w>l", { desc = "Switch To Right Window" })
+    map("n", ";<LEADER>w", "<C-w>w", { desc = "Switch To Next Window" })
 
     map("n", "<M-e>", "<CMD>m .+1<CR>==", { desc = "Move Down" })
     map("n", "<M-u>", "<CMD>m .-2<CR>==", { desc = "Move Up" })
     map("x", "<M-e>", ":m '>+1<CR>gv=gv", { desc = "Move Down" })
     map("x", "<M-u>", ":m '<-2<CR>gv=gv", { desc = "Move Up" })
+    
+    map("n", ".", "n", { desc = "Search Next" })
+    map("n", ",", "N", { desc = "Search Previous" })
+
+    local pattern = "CustomKeymaps"
+    vim.api.nvim_exec_autocmds("User", {
+        pattern = pattern,
+        modeline = false
+    })
+
 end
 
 M.treesitter_incremental_selection_keymaps = {
@@ -84,6 +95,23 @@ M.treesitter_incremental_selection_keymaps = {
     node_incremental = "<S-Space>",
     scope_incremental = "<S-M-Space>",
     node_decremental = "<S-BS>"
+}
+
+M.accelerated = {
+    down = 'e',
+    up = 'u',
+    quick_down = "E",
+    quick_up = "U"
+}
+
+M.boole = {
+    increment = "<C-a>",
+    decrement = "<C-x>"
+}
+
+M.todo_comments = {
+    next = "]t",
+    previous = "[t"
 }
 
 return M
