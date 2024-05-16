@@ -1,7 +1,7 @@
 local M = {}
 
 M.setup = function()
-    vim.o.guifont = "RecMonoDuotone Nerd Font:h11"
+    vim.o.guifont = "RecMonoLinear Nerd Font Mono:h11"
     if vim.g.neovide then
         vim.g.neovide_transparency = 0.85
         vim.g.neovide_hide_mouse_when_typing = true
