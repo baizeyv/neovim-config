@@ -6,6 +6,13 @@ M.options = require("core.options")
 M.lazy = require("core.plugin-loader")
 
 M.setup = function ()
+    vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile", "BufWritePre" }, {
+        once = true,
+        pattern = "*",
+        callback = function ()
+            vim.api.nvim_exec_autocmds("User", { pattern = "CustomFile", modeline = false })
+        end
+    })
 
     -- autocmds can be loaded lazily when not opening a file
     local delay_autocmds = vim.fn.argc(-1) == 0
