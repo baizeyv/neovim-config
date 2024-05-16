@@ -32,7 +32,7 @@ end
 
 M.lazy_config = {
     -- directory whereplugins will be installed
-    root = vim.fn.stdpath('data') .. "/extra-plugins",
+    root = rc.lazy_root,
     defaults = {
         lazy = true,
         version = nil,

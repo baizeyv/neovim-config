@@ -1,5 +1,7 @@
 local M = {}
 
+require("core.rc")
+
 M.keymaps = require("core.keymaps")
 M.autocmds = require("core.autocmds")
 M.options = require("core.options")

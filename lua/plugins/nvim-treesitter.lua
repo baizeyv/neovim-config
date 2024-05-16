@@ -4,7 +4,10 @@ vim.opt.runtimepath:append(parser_path)
 return {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
-    event = "User LoadCustomPlugins",
+    event = { "User CustomFile", "VeryLazy" },
+    cmd = {
+        "TSUpdateSync", "TSUpdate", "TSInstall"
+    },
     opts = {
         -- A list of parser names, or "all" (the five listed parsers should always be installed)
         ensure_installed = "all",
@@ -29,6 +32,7 @@ return {
             -- NOTE: these are the names of the parsers and not the filetype. (for example if you want to
             -- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
             -- the name of the parser)
+
             -- list of language that will be disabled
             -- disable = {},
             -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files

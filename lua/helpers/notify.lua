@@ -26,7 +26,9 @@ M.notify = function (msg, opts)
         end, msg), "\n")
     end
     ----------------------------------------
-    -- TODO: stacktrace
+    if opts.stacktrace then
+        msg = msg .. M.pretty_trace({ level = opts.stacklevel or 2 })
+    end
     ----------------------------------------
     local lang = opts.lang or "markdown"
     local notify = opts.once and vim.notify_once or vim.notify
@@ -54,6 +56,51 @@ M.notify = function (msg, opts)
             -- do nothing
         end
     })
+end
+
+---@param opts? {level?:number}
+M.pretty_trace = function(opts)
+    opts = opts or {}
+    local trace = {}
+    local level = opts.level or 2
+    while true do
+        local info = debug.getinfo(level, "Sln")
+        if not info then
+            break
+        end
+        if info.what ~= "C" then
+            local source = info.source:sub(2)
+            if source:find(rc.lazy_root, 1, true) == 1 then
+                source = source:sub(#rc.lazy_root + 1)
+            end
+            source = vim.fn.fnamemodify(source, ":p:~:.")
+            local line = "  - " .. source .. ":" .. info.currentline
+            if info.name then
+                line = line .. " _in_ **" .. info.name .. "**"
+            end
+            table.insert(trace, line)
+        end
+        level = level + 1
+    end
+    return #trace > 0 and ("\n\n# stacktrack:\n" .. table.concat(trace, "\n")) or ""
+end
+
+M.info = function(msg, opts)
+    opts = opts or {}
+    opts.level = vim.log.levels.INFO
+    M.notify(msg, opts)
+end
+
+M.warn = function(msg, opts)
+    opts = opts or {}
+    opts.level = vim.log.levels.WARN
+    M.notify(msg, opts)
+end
+
+M.error = function(msg, opts)
+    opts = opts or {}
+    opts.level = vim.log.levels.ERROR
+    M.notify(msg, opts)
 end
 
 return M
