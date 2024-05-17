@@ -85,22 +85,42 @@ M.pretty_trace = function(opts)
     return #trace > 0 and ("\n\n# stacktrack:\n" .. table.concat(trace, "\n")) or ""
 end
 
+--- Info notify
 M.info = function(msg, opts)
     opts = opts or {}
     opts.level = vim.log.levels.INFO
     M.notify(msg, opts)
 end
 
+--- Warning notify
 M.warn = function(msg, opts)
     opts = opts or {}
     opts.level = vim.log.levels.WARN
     M.notify(msg, opts)
 end
 
+--- Error notify
 M.error = function(msg, opts)
     opts = opts or {}
     opts.level = vim.log.levels.ERROR
     M.notify(msg, opts)
+end
+
+--- Debug notify
+M.debug = function(msg, opts)
+    if not rc.debug then
+        return
+    end
+    opts = opts or {}
+    if opts.title then
+        opts.title = rc.custom_name .. " Neovim: " .. opts.title
+    end
+    if type(msg) == "string" then
+        M.notify(msg, opts)
+    else
+        opts.lang = "lua"
+        M.notify(vim.inspect(msg), opts)
+    end
 end
 
 return M

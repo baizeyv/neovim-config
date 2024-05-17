@@ -1,4 +1,6 @@
 _G.rc = {
-    custom_name = "Melody",
-    lazy_root = vim.fn.stdpath('data') .. "/extra-plugins"
+    debug = true,
+    custom_name = "Melody", -- my custom neovim name
+    lazy_root = vim.fn.stdpath('data') .. "/extra-plugins", -- lazy.nvim root path
+    autoformat = true, -- global autoformat
 }
