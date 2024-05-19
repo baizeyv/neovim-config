@@ -145,4 +145,14 @@ M.cmp = {
 	snippet_prev = "<S-TAB>",
 }
 
+M.session = {
+	restore = "<LEADER>qs",
+	restore_last = "<LEADER>ql",
+	stop = "<LEADER>qd",
+}
+
+M.notify = {
+	dismiss = "<LEADER>zz",
+}
+
 return M

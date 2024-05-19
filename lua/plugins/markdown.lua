@@ -12,6 +12,7 @@ return {
 			"md",
 			"MD",
 			"markdown",
+			"notify",
 		},
 		opts = {
 			-- Configure whether Markdown should be rendered by default or not
@@ -59,7 +60,7 @@ return {
 			-- Only intended to be used for plugin development / debugging
 			log_level = "error",
 			-- Filetypes this plugin will run on
-			file_types = { "markdown" },
+			file_types = { "markdown", "notify" },
 			-- Vim modes that will show a rendered view of the markdown file
 			-- All other modes will be uneffected by this plugin
 			render_modes = { "n", "c" },
@@ -127,6 +128,21 @@ return {
 		},
 		config = function(_, opts)
 			require("render-markdown").setup(opts)
+			--[[
+			local ui = require("render-markdown.ui")
+			vim.api.nvim_create_autocmd({ "User" }, {
+				pattern = "OpenNotify",
+				group = vim.api.nvim_create_augroup("RenderMarkdown", { clear = true }),
+				callback = function()
+					local file = io.open("example", "w")
+					if file then
+						file:write("test")
+						file:close()
+					end
+					ui.refresh()
+					-- vim.schedule(ui.refresh)
+				end,
+			})]]
 		end,
 	},
 }
