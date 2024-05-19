@@ -1,6 +1,7 @@
 local M = {}
 
 require("core.rc")
+local helper = require("helpers")
 
 M.keymaps = require("core.keymaps")
 M.autocmds = require("core.autocmds")
@@ -33,6 +34,9 @@ M.setup = function ()
                 M.load("autocmds")
             end
             M.load("keymaps")
+
+            helper.format.setup()
+
             vim.api.nvim_exec_autocmds("User", {
                 pattern = "LoadCustomPlugins",
                 modeline = false

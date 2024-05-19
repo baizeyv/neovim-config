@@ -1,7 +1,5 @@
 local M = {}
 
-local helper = require("helpers")
-
 ---toggle inlay hints
 ---@param buf? number
 ---@param value? boolean
@@ -19,9 +17,9 @@ end
 
 M.autoformat = function(buf)
     if buf then
-        vim.b.autoformat = not helper.format.enabled()
+        vim.b.autoformat = not require("helpers.format").enabled()
     else
-        rc.autoformat = not helper.format.enabled()
+        rc.autoformat = not require("helpers.format").enabled()
         vim.b.autoformat = nil
     end
     -- TODO:

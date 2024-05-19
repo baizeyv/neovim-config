@@ -123,4 +123,13 @@ M.debug = function(msg, opts)
     end
 end
 
+M.deprecate = function(old, new)
+    M.warn(("`%s` is deprecated. Please use `%s` instead."):format(old, new), {
+        title = "Neovim-Deprecated",
+        once = true,
+        stacktrace = true,
+        stacklevel = 6
+    })
+end
+
 return M
