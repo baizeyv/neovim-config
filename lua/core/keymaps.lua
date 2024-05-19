@@ -128,7 +128,7 @@ M.lsp = {
 	source_action = "<LEADER>cA",
 	codelens = "<LEADER>cc",
 	codelens_refresh = "<LEADER>cC",
-	rename = "<LEADER>ca",
+	rename = "<LEADER>rn",
 }
 
 M.cmp = {

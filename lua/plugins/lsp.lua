@@ -210,6 +210,7 @@ return {
 			"mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
 		},
+		event = "User CustomFile",
 		opts = {
 			-- options for vim.lsp.buf.format (my custom options)
 			custom_format_opts = {
@@ -279,6 +280,7 @@ return {
 			setup = {},
 		},
 		config = function(_, opts)
+			require("neodev").setup()
 			local ok, neoconf = pcall(require, "neoconf")
 			if ok then
 				neoconf.setup(neoconf_opts)
@@ -335,7 +337,6 @@ return {
 				end)
 			end
 
-			-- TODO:
 			local servers = opts.servers
 			local has_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
 			local capabilities = vim.tbl_deep_extend(

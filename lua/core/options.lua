@@ -58,7 +58,7 @@ M.setup = function()
 	end
 	vim.opt.undofile = true
 	vim.opt.undolevels = 10000
-	vim.opt.updatetime = 200 -- Save swap file and trigger CursorHold
+	vim.opt.updatetime = 1000 -- Save swap file and trigger CursorHold
 	vim.opt.virtualedit = "block" -- Allow cursor to move where there is no text in visual block mode
 	vim.opt.wildmode = "longest:full,full" -- Command-line completion mode
 	vim.opt.winminwidth = 5 -- Minimum window width

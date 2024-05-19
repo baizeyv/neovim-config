@@ -141,7 +141,7 @@ return {
 					autocomplete = {
 						types.cmp.TriggerEvent.TextChanged,
 					},
-					completeopt = "menu,menuone,noselect",
+					completeopt = "menu,menuone,noinsert",
 					keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h\w*\%(-\w*\)*\)]],
 					keyword_length = 1,
 				},
@@ -162,8 +162,8 @@ return {
 						scrollbar = true,
 					},
 					documentation = {
-						max_height = math.floor(WIDE_HEIGHT * (WIDE_HEIGHT / vim.o.lines)),
-						max_width = math.floor((WIDE_HEIGHT * 2) * (vim.o.columns / (WIDE_HEIGHT * 2 * 16 / 9))),
+						max_height = math.floor(WIDE_HEIGHT * (WIDE_HEIGHT / vim.o.lines)) * 3,
+						max_width = math.floor((WIDE_HEIGHT * 2) * (vim.o.columns / (WIDE_HEIGHT * 2 * 16 / 9))) * 2,
 						border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
 						-- border = "rounded",
 						winhighlight = "FloatBorder:NormalFloat",
@@ -208,7 +208,6 @@ return {
 						end
 						local kind_opts = require("helpers").opts("lspkind.nvim")
 						local kind = require("lspkind").cmp_format(kind_opts)(entry, item)
-						vim.notify(kind.kind)
 						local strings = vim.split(kind.kind, "%s", { trimempty = true })
 						kind.kind = " " .. (strings[1] or "") .. " "
 						kind.menu = "    (" .. (strings[3] or "") .. ")"
